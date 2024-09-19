@@ -46,9 +46,6 @@ class GridWorld(dynpro.MDP):
         return {output:1}
 
 gridworld = GridWorld(5,5)    
-print(gridworld.states)
-for state in gridworld.states:
-    print(gridworld.actions(state))
 
 policy = dynpro.UniformRandom(gridworld)
 for i in range(10):
