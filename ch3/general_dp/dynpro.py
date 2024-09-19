@@ -68,3 +68,25 @@ def step_evaluate_policy(mdp: MDP, values, policy:Policy):
             v += temp_v
         new_values[s] = v
     return new_values
+
+def policy_diff(mdp, pi1, pi2):
+    count = 0
+    policy_diff = 0
+    for s in mdp.states:
+        old_pi = pi1.policy(s)
+        new_pi = pi2.policy(s)
+        for a in mdp.actions(s):
+            policy_diff += (old_pi[a] - new_pi[a])**2
+            count += 1
+    policy_diff /= count
+    return policy_diff
+
+def find_optimal_policy(mdp, step_threshold = 0.1, policy_change_threshold = 0.01):
+    policy = UniformRandom(mdp)
+    while True:
+        values = evaluate_policy(mdp, policy, step_threshold)
+        new_policy = Greedy(mdp, values)
+        if policy_diff(mdp, policy, new_policy) < policy_change_threshold:
+            return new_policy
+        policy = new_policy
+    

@@ -47,8 +47,5 @@ class GridWorld(dynpro.MDP):
 
 gridworld = GridWorld(5,5)    
 
-policy = dynpro.UniformRandom(gridworld)
-for i in range(10):
-    values = dynpro.evaluate_policy(gridworld, policy)
-    policy = dynpro.Greedy(gridworld, values)
-print([f"{s}:{v:.1f}" for (s,v) in dynpro.evaluate_policy(gridworld, policy, 0.001).items()])
+optimal_policy = dynpro.find_optimal_policy(gridworld)
+print([f"{s}:{v:.1f}" for (s,v) in dynpro.evaluate_policy(gridworld, optimal_policy, 0.001).items()])
